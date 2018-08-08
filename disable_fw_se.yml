@@ -1,0 +1,8 @@
+- hosts: rntbciweb
+  tasks:
+  - name: Disable Firewall
+    service: name=firewalld state=stopped enabled=yes
+  - name: Selinux disable
+    selinux: state=disabled
+  - name: selinux set enforce disable
+    command: setenforce 0

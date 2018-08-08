@@ -1,4 +1,7 @@
-- group: webservers
+- name: Ensure group "webservers" exists
+  group:
+    name: webservers
+    state: present
   tasks:
   - name: Disable Firewall
     service: name=firewalld state=stopped enabled=yes

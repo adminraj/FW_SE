@@ -1,0 +1,18 @@
+- hosts: 192.168.56.104
+  vars:
+    app_path: /opt/jboss/bin
+  tasks:
+  - name: restart jboss server
+    shell: nohup sh '{{ app_path }}/shutdown.sh' -S > '{{ app_path }}/shutdown1.log' 2>&1 &
+  - name: Wait 300 seconds for port 8080 to stop listen, don't start checking for 10 seconds
+    wait_for:
+     port: 8080
+     delay: 10
+     state: stopped
+  - name: start jboss server
+    shell: nohup sh '{{ app_path }}/run.sh' -b 0.0.0.0  > '{{ app_path }}/result1.log' 2>&1 &
+  - name: Wait 300 seconds for port 8080 to listen, don't start checking for 10 seconds
+    wait_for:
+     port: 8080
+     delay: 10
+     state: started
